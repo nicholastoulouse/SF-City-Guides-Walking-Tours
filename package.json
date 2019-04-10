@@ -1,0 +1,29 @@
+{
+  "name": "SF-City-Guides-Walking-Tours",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholastoulouse/SF-City-Guides-Walking-Tours.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicholastoulouse/SF-City-Guides-Walking-Tours/issues"
+  },
+  "homepage": "https://github.com/nicholastoulouse/SF-City-Guides-Walking-Tours#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "dot-env": "0.0.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mysql": "^2.16.0",
+    "path": "^0.12.7"
+  }
+}
