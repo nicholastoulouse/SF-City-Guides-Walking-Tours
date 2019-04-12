@@ -5,8 +5,9 @@
 
 var router = require('express').Router()
 
-router.use('/signin', function(req, res){
-    res.render("signin"); // goes to sign-in.ejs
+router.get('/', function(req, res){
+    res.send("/users"); // goes to signin.ejs
+    // change pwd or do any processing then call next to go to the next middleware
 });
 
 module.exports = router;
