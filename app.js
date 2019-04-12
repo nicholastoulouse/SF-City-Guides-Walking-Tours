@@ -6,6 +6,7 @@ var routes = require("./routes"); // ("./routes/index.js");
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 // middleware will handle some parts and it's not the end of the route
 app.use('/users', routes.users); // app.use why? b/c we are not using app.get: pass the control from this mod to the next one
