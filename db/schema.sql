@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS users (
     mobilephone INT(10) NOT NULL,
     email VARCHAR (255) UNIQUE NOT NULL,
     pwd VARCHAR (255) NOT NULL,
-    category ENUM('User', 'Guide'),
+    bio VARCHAR (2500),
+    category ENUM('user', 'guide'),
     PRIMARY KEY(id)
 );
 
@@ -24,30 +25,37 @@ CREATE TABLE IF NOT EXISTS tours (
     neighborhood VARCHAR(255) NOT NULL,
     cityName VARCHAR(50) NOT NULL,
     stateID VARCHAR(3) NOT NULL,
-    meeting_spot VARCHAR(255) NOT NULL,
+    meeting_spot VARCHAR(511) NOT NULL,
     latitude FLOAT(9,6),
     longitude FLOAT(9,6),
-    meeting_details VARCHAR(255),
+    meeting_details VARCHAR(511),
     mediawikiURL VARCHAR(255) NOT NULL,
-    themes VARCHAR(2000) NOT NULL,
+    themes VARCHAR(1023) NOT NULL,
     PRIMARY KEY(id)
 );
 
+-- Time zone docs: (for future reference) https://dev.mysql.com/doc/refman/8.0/en/time-zone-support.html
+-- DATE data type: https://dev.mysql.com/doc/refman/8.0/en/datetime.html
+-- TIME data type: https://dev.mysql.com/doc/refman/8.0/en/time.html
 CREATE TABLE IF NOT EXISTS scheduled_tours (
     id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL, 
-    -- How would I add a constraint to the enum of the FK of 'Guide'?
+    tour_id INT NOT NULL,
+    user_id INT NOT NULL, -- Note: this is the user_id of the guide category of user
     scheduled_date DATE NOT NULL,
     scheduled_time TIME NOT NULL,
     cancellation BOOLEAN DEFAULT 0,
-    notes VARCHAR(255) NOT NULL,
+    guidenote VARCHAR(511),
     PRIMARY KEY(id),
+    FOREIGN KEY (tour_id) REFERENCES tours(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS attendees (
     id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
     scheduled_tours_id INT NOT NULL,
+    cancellation BOOLEAN DEFAULT 0,
+    PRIMARY KEY(id),
     FOREIGN KEY (scheduled_tours_id) REFERENCES scheduled_tours(id),
-    FOREIGN KEY (id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
