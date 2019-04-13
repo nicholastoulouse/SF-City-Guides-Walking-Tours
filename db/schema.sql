@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT NOT NULL AUTO_INCREMENT,
     firstname VARCHAR (255) NOT NULL,
     lastname VARCHAR (255) NOT NULL,
-    mobilephone INT(10) NOT NULL,
+    mobilephone VARCHAR(255) NOT NULL,
     email VARCHAR (255) UNIQUE NOT NULL,
     pwd VARCHAR (255) NOT NULL,
     bio VARCHAR (2500),
@@ -26,11 +26,12 @@ CREATE TABLE IF NOT EXISTS tours (
     cityName VARCHAR(50) NOT NULL,
     stateID VARCHAR(3) NOT NULL,
     meeting_spot VARCHAR(511) NOT NULL,
+    offered VARCHAR(50) DEFAULT "Year Round",
     latitude FLOAT(9,6),
     longitude FLOAT(9,6),
     meeting_details VARCHAR(511),
     mediawikiURL VARCHAR(255) NOT NULL,
-    themes VARCHAR(1023) NOT NULL,
+    description VARCHAR(1023) NOT NULL,
     PRIMARY KEY(id)
 );
 
@@ -41,8 +42,7 @@ CREATE TABLE IF NOT EXISTS scheduled_tours (
     id INT NOT NULL AUTO_INCREMENT,
     tour_id INT NOT NULL,
     user_id INT NOT NULL, -- Note: this is the user_id of the guide category of user
-    scheduled_date DATE NOT NULL,
-    scheduled_time TIME NOT NULL,
+    scheduled DATETIME NOT NULL,
     cancellation BOOLEAN DEFAULT 0,
     guidenote VARCHAR(511),
     PRIMARY KEY(id),
