@@ -47,6 +47,7 @@ app.use(express.static('public'));
 // middleware will handle some parts and it's not the end of the route
 app.use('/users', routes.users); // app.use why? b/c we are not using app.get: pass the control from this mod to the next one
 app.use('/tours', routes.tours);
+app.use('/scheduled', routes.scheduled);
 app.use('/', routes.home);
 
 // until you put res.send or res.render or res.json you're still in the middle

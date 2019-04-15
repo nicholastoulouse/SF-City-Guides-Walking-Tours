@@ -3,11 +3,11 @@
     <% include ../partials/head %>
     
     <body class="uk-background-muted">
-        <h1>Tours</h1>
+        <h1>Upcoming tours for: </h1>
 
         <div>
-            <% tours.forEach(function(tour) { %>
-                <%- include('../partials/tourcard', {tour: tour}); %>
+            <% scheduled.forEach(function(schtr) { %>
+                <%- include('../partials/scheduledtourrow', {schtr: schtr}); %>
             <% }); %>
         </div>
         <% include ../partials/footer %>
