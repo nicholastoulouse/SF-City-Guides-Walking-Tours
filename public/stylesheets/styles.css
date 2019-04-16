@@ -1,0 +1,53 @@
+footer {
+
+    height: 64px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 15px 5px 10px;
+}
+footer ul {
+    list-style-type: none;
+}
+footer li {
+    display: inline;
+    padding: 0 5%;
+}
+footer ul a {
+    color: white;
+    text-decoration: none !important;
+}
+footer ul a:hover {
+    color:white;
+    text-decoration: none !important;
+    cursor:pointer;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    footer {
+        margin: 0;
+        font-size: .8em;
+        padding: 15px 0 10px 0;
+    }
+    footer li {
+        padding: 0 3%;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    footer li {
+        padding: 0 3.5%;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+} 

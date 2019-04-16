@@ -13,8 +13,6 @@ router.get('/', function (req, res) {
     connection.query('SELECT * FROM tours', function (error, results, fields) {
         if (error) res.send(error)
         else {
-            // res.json(results)
-            console.log(results)
             res.render("pages/tours", {tours: results}); // {results} == {results: results} == {"results": results}
         }
     });
