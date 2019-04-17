@@ -10,6 +10,7 @@ router.get('/signup', function(req, res, next){
     // sign them in somehow
     console.log("sign them up or log them in first, then go to the scheduled tour to register that user.")
     next();
+    res.render("pages/signup");
 }); 
 
 router.get('/signup/:tour_id', function(req, res){
