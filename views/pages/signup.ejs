@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% include ../partials/head %>
+    
+    <body class="uk-background-muted">
+        <h1>Sign Up For A Tour</h1>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+            <h3 class="uk-card-title">Sign Up</h3>
+            <form method="POST" action="/users/signup">
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="First Name" name="firstname">
+                </div>
+            
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Last Name" name="lastname">
+                </div>
+            
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="mobile phone" name="mobilephone">
+                </div>
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Email" name="email">
+                </div>
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Password" name="pwd">
+                </div>
+                <div>
+                    <button class="uk-button uk-button-default">Sign Up!</button>
+                </div>
+            
+            </form>
+            <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+    </body>
+</html>
