@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% include ../partials/head %>
+    
+    <body class="uk-background-muted">
+        <h1>Hello, Sign-In</h1>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+            <h3 class="uk-card-title">Default</h3>
+            <form method="POST" action="/users/signin">
+
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Email" name="email">
+                </div>
+                <div class="uk-margin">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Password" name="pwd">
+                </div>
+                <div>
+                    <button class="uk-button uk-button-default">Sign In!</button>
+                </div>
+            
+            </form>
+            <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+    </body>
+</html>

@@ -12,4 +12,8 @@ router.get('/:tour_id', function (req, res) {
     });
 });
 
+router.get('/confirmation/:id', function(req, res) {
+    res.send('hurray')
+})
+
 module.exports = router;

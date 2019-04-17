@@ -1,47 +1,18 @@
 require('dotenv').config()
 var express = require('express');
 var app = express();
-
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+//allow sessions
+app.use(session({ secret: 'app', cookie: { maxAge: 1*1000*60*60*24*365 }}));
+//maxAge
+    //Specifies the number (in milliseconds) to use when calculating the Expires Set-Cookie attribute. This is done by taking the current server time and adding maxAge milliseconds to the value to calculate an Expires datetime. By default, no maximum age is set.
+app.use(cookieParser());
 // If I have 5 routes, I'll get all of them!
 var routes = require("./routes"); // ("./routes/index.js");
-
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
-// Start Test
-// var mysql = require('mysql')
-// var connection = mysql.createConnection({
-//     host     : '127.0.0.1',
-//     user     : 'root',
-//     password : 'codingIsfun',
-//     database : 'walking_tours_db'
-//    });
-   
-//    connection.connect();
-
-// app.get('/tours', function(req, res){
-    
-//     console.log("inside tours")
-//     // res.send("/tours");
-//     connection.query('SELECT * FROM tours', function (error, results, fields){
-// 		console.log(results)
-// 		if (error) res.send(error)
-//         else {
-// 			// res.json(results)
-// 			res.render("pages/tours", {
-// 				results: results
-// 			});
-           
-            
-//         }
-//     });
-    
-   
-    
-//     // change pwd or do any processing then call next to go to the next middleware
-// });
-// End Test
 
 
 // middleware will handle some parts and it's not the end of the route
