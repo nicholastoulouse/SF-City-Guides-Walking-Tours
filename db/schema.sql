@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
     lastname VARCHAR (255) NOT NULL,
     mobilephone VARCHAR(255) NOT NULL,
     email VARCHAR (255) UNIQUE NOT NULL,
-    pwd VARCHAR (255) NOT NULL,
+    password_hash VARCHAR (255) NOT NULL,
     bio VARCHAR (2500),
-    category ENUM('user', 'guide'),
+    category ENUM('user', 'guide') DEFAULT 'user',
     PRIMARY KEY(id)
 );
 

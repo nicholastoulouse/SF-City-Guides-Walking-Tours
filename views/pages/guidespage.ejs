@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% include ../partials/head %>
+    
+    <body class="uk-background-muted">
+        <h1>Schedule a new tour: </h1>
+        <form method="post" action="/newtour"></form>
+            <!-- List out all tours -->
+            <label for="tourname">Select the tour you want to schedule:</label>
+            <select id="tourname" name="tourname" autofocus>
+                <!-- <option value="volvo">Volvo</option> -->
+            </select> 
+
+            <!-- Prepopulate the tour guide's name and their user_id as a hidden field-->
+            <label for="firstname">Firstname</label><input type="text" name="firstname" placeholder="Enter your firstname" value="John"/>
+            <label for="lastname">Lastname</label><input type="text" name="lastname" placeholder="Enter your lastname" value="Doe"/>
+            
+            <!-- Create this dynamically after sign up or on sign in -->
+            <input type="hidden" id="user_id" name="user_id" value="3">
+
+            <label for="newtourdate">New scheduled date:</label>
+            <input type="date" id="newtourdate" name="newtourdate" data-date-inline-picker="true" value="2019-05-01" min="2019-01-01" max="2019-12-31" required>
+            <label for="newtourtime">Choose a time for your tour:</label>
+            <input type="time" id="newtourtime" name="newtourtime" min="7:00" max="20:00" step="0" required>
+
+            <button type="submit" id="submit">Schedule a new tour!</button>
+        </form>
+        <div>
+            <% scheduled.forEach(function(schdld) { %>
+                <%- include('../partials/guidescheduled', {schdld: schdld}); %>
+            <% }); %>
+        </div>
+        <% include ../partials/footer %>
+        <script>
+        $(document).ready(function(){
+            $("#submit").on("click", function(e){
+                e.preventDefault();
+                console.log("submitted");
+            })
+        })
+        </script>
+    </body>
+</html>
