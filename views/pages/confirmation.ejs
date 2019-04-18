@@ -3,10 +3,17 @@
     <% include ../partials/head %>
     
     <body class="uk-background-muted">
-        <h1>Congrats! Your're confirmed!</h1>
+        <h1>Your're all signed up!</h1>
+        <p>You are confirmed for the tour <%= tourinfo.walktitle %> on <%= tourinfo.scheduled %>
+            with <%= tourinfo.firstname + " " + tourinfo.lastname %></p>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
             <h3 class="uk-card-title"><%= tourinfo.latitude + " " + tourinfo.longitude %></h3>
-            <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         </div>
+
+        <div id='map' class='map' width="320px" height="auto"></div>
+
+        <script>
+        
+        </script>
     </body>
 </html>
