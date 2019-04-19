@@ -32,7 +32,10 @@ router.post('/signin', function(req, res){
             if (results[0]){ // a record was found
                 req.session.em = results[0].email;
                 console.log("session is: ", req.session.em, "redirect to: ", req.session.redirectTo);
-                res.redirect(req.session.redirectTo)
+                if (req.session.redirectTo)
+                    res.redirect(req.session.redirectTo) 
+                else 
+                    res.redirect('/')
             } else{
                 res.redirect('/users/signin')
             }

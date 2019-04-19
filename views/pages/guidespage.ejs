@@ -5,7 +5,7 @@
     <body class="uk-background-muted">
         <% include ../partials/nav %>
         <h1>Schedule a new tour: </h1>
-        <form method="post" action="/newtour"></form>
+        <form method="post" action="scheduled/newtour"></form>
             <!-- List out all tours -->
             <label for="tourname">Select the tour you want to schedule:</label>
             <select id="tourname" name="tourname" autofocus>
@@ -27,8 +27,9 @@
             <button type="submit" id="submit">Schedule a new tour!</button>
         </form>
         <div>
-            <% scheduled.forEach(function(schdld) { %>
-                <%- include('../partials/guidescheduled', {schdld: schdld}); %>
+            <% allguidetours.forEach(function(schdld) { %>
+                <p><%=  schdld.walktitle %></p>
+                
             <% }); %>
         </div>
         <% include ../partials/footer %>
