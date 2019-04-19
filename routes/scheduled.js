@@ -39,4 +39,30 @@ router.get('/confirmation/:id', function(req, res) {
     }
 })
 
+
+router.get('/confirmation/:id', function(req, res) {
+
+    if(!req.session.em){ 
+        res.redirect('/users/signin');
+    } else {
+        console.log("the session variable is ", req.session.em); 
+        connection.query('SELECT t.walktitle, t.latitude, t.longitude, t.mediawikiURL, t.meeting_spot, t.description, t.neighborhood, st.scheduled, st.user_id, st.guidenote FROM tours AS t INNER JOIN scheduled_tours AS st WHERE t.id=(SELECT tour_id FROM scheduled_tours WHERE id=?)', [req.params.id], function(error, tourinfo, fields){
+            console.log("confirmation page tour info ", tourinfo[0]);
+            connection.query("SELECT firstname, lastname, bio FROM users WHERE category='guide' AND id=?", [tourinfo[0].user_id], function(error, result){
+                
+                var time = tourinfo[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
+                tourinfo[0].scheduled = moment(time).format('LLLL');
+
+                var picFileName = '
+                
+                /images/' +  tourinfo[0].neighborhood.replace(/\s/g, '').toLowerCase() + '.jpg';
+                var info = {...tourinfo[0], ...result[0], ...{pic: picFileName}};
+                console.log(info);
+
+                
+                res.render('pages/confirmation', {tourinfo: info});
+            });
+        });
+    }
+})
 module.exports = router;
