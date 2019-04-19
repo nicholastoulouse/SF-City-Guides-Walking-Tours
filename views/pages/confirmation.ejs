@@ -1,12 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
     <% include ../partials/head %>
-    
     <body class="uk-background-muted">
-        <h1>Congrats! Your're confirmed!</h1>
+        
         <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-            <h3 class="uk-card-title"><%= tourinfo.latitude + " " + tourinfo.longitude %></h3>
-            <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+            <h1><%= tourinfo.walktitle %></h1>
+            <h2 class="uk-card-title"><%= tourinfo.neighborhood %></h2>
+
+            <img src="<%= tourinfo.pic %>" />
+
+            <h4 style="margin-bottom:10px;padding-bottom:0;">Success! You are confirmed for the tour <%= tourinfo.walktitle %> with guide <%= tourinfo.firstname %> <%= tourinfo.lastname %></h4>
+            <h5 style="margin-top:0;padding-top:0;color:red;font-weight:700;">on <%= tourinfo.scheduled %></h5>
+            
+            <p>Your guide mentions the following: <%= tourinfo.guidenote %>. Should you have any questions or special requests, you may contact them at <%= tourinfo.email %></p>
+        
+            <p><%= tourinfo.description %> Before the tour, you may read highlights about the <a href="<%= tourinfo.mediawikiURL %>"><%= tourinfo.neighborhood %></a></p>
+        
+            <p>Our free (donations welcome!), regularly scheduled tours are open to the public but NOT open to parties of 8 or more. If you plan to bring 8 or more walkers to a regular tour, please click <a href="http://www.sfcityguides.org/grouptours">here</a> for more information on booking private group tours.</p>
+        
+            <p><strong>Meeting location:</strong> Please meet your tour guide five minutes ahead of time at <strong><%= tourinfo.meeting_spot %></strong>. Public transportation: MUNI/BART Montgomery Station; all Market Street buses & streetcars.</p>
         </div>
+
+        <div id="map" class="map" width="320px" height="auto" style="min-height:300px;max-height:700px;min-width:320px;width:100%;margin: 0 auto;"></div>
+        <script>
+                $(document).ready(function(){ 
+                    var lng = <%= tourinfo.longitude %>;
+                    var lat = <%= tourinfo.latitude %>;
+                    var coords = [lng, lat];
+                    console.log("coordinates ", coords);
+                    var apikey = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ'; // 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
+                    mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
+    
+                    var map = new mapboxgl.Map({
+                        container: 'map', 
+                        style: 'mapbox://styles/mapbox/streets-v9', 
+                        center: coords, 
+                        zoom: 14
+                    });
+    
+                    var geocoder = new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken
+                    });
+                    
+                    map.addControl(geocoder);
+    
+                    map.on('load', function() {
+                        map.addSource('single-point', {
+                            "type": "geojson",
+                            "data": {
+                            "type": "Point",
+                            "coordinates": coords
+                            }
+                        });
+                        
+                        map.addLayer({
+                            "id": "point",
+                            "source": "single-point",
+                            "type": "circle",
+                            "paint": {
+                            "circle-radius": 10,
+                            "circle-color": "magenta"
+                            }
+                        });
+                    });
+                });
+            </script>
     </body>
 </html>
