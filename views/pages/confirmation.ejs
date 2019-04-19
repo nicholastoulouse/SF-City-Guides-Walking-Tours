@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-    <% include ../partials/head %>
-    
+
     <body class="uk-background-muted">
-        <h1>Your're all signed up!</h1>
-        <p>You are confirmed for the tour <%= tourinfo.walktitle %> on <%= tourinfo.scheduled %>
-            with <%= tourinfo.firstname + " " + tourinfo.lastname %></p>
+        
         <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-            <h3 class="uk-card-title"><%= tourinfo.latitude + " " + tourinfo.longitude %></h3>
+
+            <h1 class="uk-card-title"><%= tourinfo.walktitle %></h1>
+            <h2><%= tourinfo.neighborhood %></h2>
+            <img src="<%= tourinfo.pic %>" />
+
+            <h4>Success! You are confirmed for the tour <%= tourinfo.walktitle %> on <%= tourinfo.scheduled %> offered by your friedly guide <%= tourinfo.firstname + " " + tourinfo.lastname %></h4>
+            
+            <p>Your guide mentions the following: <%= tourinfo.guidenote %>. Should you have any questions or special requests, you may contact them at <%= tourinfo.email %></p>
+        
+            <p><%= tourinfo.description %> Before the tour, you may read highlights about the <%= tourinfo.neighborhood + " at " + tourinfo.mediawikiURL" %></p>
+        
+            <p>Our free (donations welcome!), regularly scheduled tours are open to the public but NOT open to parties of 8 or more. If you plan to bring 8 or more walkers to a regular tour, please click <a href="http://www.sfcityguides.org/grouptours">here</a> for more information on booking private group tours.</p>
+        
+            <p><strong>Meeting location:</strong> Please meet your tour guide five minutes ahead of time at <strong><%= tourinfo.meeting_spot %></strong>. Public transportation: MUNI/BART Montgomery Station; all Market Street buses & streetcars.</p>
         </div>
 
-        <div id='map' class='map' width="320px" height="auto"></div>
-
-        <script>
-        
-        </script>
+        <div id="map" class="map" width="320px" height="auto" style="min-height:210px;max-height:700px;min-width:320px;width:100%;margin: 0 auto;"><%= tourinfo.latitude + " " + tourinfo.longitude %></div>
+        <% include ../partials/footer %>
     </body>
 </html>
