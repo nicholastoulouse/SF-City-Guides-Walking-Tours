@@ -40,29 +40,52 @@ router.get('/confirmation/:id', function(req, res) {
 })
 
 
-router.get('/confirmation/:id', function(req, res) {
-
+router.get('/scheduled/guidestours', function(req, res) {
     if(!req.session.em){ 
         res.redirect('/users/signin');
     } else {
-        console.log("the session variable is ", req.session.em); 
-        connection.query('SELECT t.walktitle, t.latitude, t.longitude, t.mediawikiURL, t.meeting_spot, t.description, t.neighborhood, st.scheduled, st.user_id, st.guidenote FROM tours AS t INNER JOIN scheduled_tours AS st WHERE t.id=(SELECT tour_id FROM scheduled_tours WHERE id=?)', [req.params.id], function(error, tourinfo, fields){
-            console.log("confirmation page tour info ", tourinfo[0]);
-            connection.query("SELECT firstname, lastname, bio FROM users WHERE category='guide' AND id=?", [tourinfo[0].user_id], function(error, result){
-                
-                var time = tourinfo[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
-                tourinfo[0].scheduled = moment(time).format('LLLL');
-
-                var picFileName = '
-                
-                /images/' +  tourinfo[0].neighborhood.replace(/\s/g, '').toLowerCase() + '.jpg';
-                var info = {...tourinfo[0], ...result[0], ...{pic: picFileName}};
-                console.log(info);
-
-                
-                res.render('pages/confirmation', {tourinfo: info});
-            });
-        });
+        connection.query('SELECT category, id, firstname, lastname FROM users WHERE email=?', [req.session.em], function(error, isguide){
+            if(isguide[0].category=='guide'){
+                connection.query('SELECT t.walktitle, t.latitude, t.longitude, t.mediawikiURL, t.meeting_spot, t.description, t.neighborhood, st.scheduled, st.user_id, st.guidenote FROM tours AS t INNER JOIN scheduled_tours AS st WHERE t.id=(SELECT tour_id FROM scheduled_tours WHERE id=?)', [req.params.id], function(error, tourinfo, fields){
+                    console.log("confirmation page tour info ", tourinfo[0]);
+                    connection.query("SELECT id, walktitle FROM tours", function(error, alltours){
+                        // we need to get the guides user id
+                        connection.query('SELECT st.scheduled, st.cancellation FROM scheduled_tours AS st INNER JOIN tours AS t WHERE st.user_id=? AND st.tour_id=t.id', [isguide.id], function(error, allguidetours){
+                            var time = allguidetours[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
+                            allguidetours[0].scheduled = moment(time).format('LLLL');
+                            var data = {...isguide[0], ...allguidetours[0]}
+                            console.log(data)
+                            res.render('pages/guidespage', {data: data});
+                        })
+                    });
+                });
+            }
+        })
     }
 })
+
+router.post('/scheduled/newtour', function(req, res) {
+    if(!req.session.em){ 
+        res.redirect('/users/signin');
+    } else {
+        connection.query('SELECT category, id, firstname, lastname FROM users WHERE email=?', [req.session.em], function(error, isguide){
+            if(isguide[0].category=='guide'){
+                connection.query('SELECT t.walktitle, t.latitude, t.longitude, t.mediawikiURL, t.meeting_spot, t.description, t.neighborhood, st.scheduled, st.user_id, st.guidenote FROM tours AS t INNER JOIN scheduled_tours AS st WHERE t.id=(SELECT tour_id FROM scheduled_tours WHERE id=?)', [req.params.id], function(error, tourinfo, fields){
+                    console.log("confirmation page tour info ", tourinfo[0]);
+                    connection.query("SELECT id, walktitle FROM tours", function(error, alltours){
+                        // we need to get the guides user id
+                        connection.query('SELECT st.scheduled, st.cancellation FROM scheduled_tours AS st INNER JOIN tours AS t WHERE st.user_id=? AND st.tour_id=t.id', [isguide.id], function(error, allguidetours){
+                            var time = allguidetours[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
+                            allguidetours[0].scheduled = moment(time).format('LLLL');
+                            var data = {...isguide[0], ...allguidetours[0]}
+                            console.log(data)
+                            res.render('pages/guidespage', {data: data});
+                        })
+                    });
+                });
+            }
+        })
+    }
+})
+
 module.exports = router;
