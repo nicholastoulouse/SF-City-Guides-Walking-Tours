@@ -26,7 +26,7 @@ router.get('/confirmation/:id', function(req, res) {
                 var time = tourinfo[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
                 tourinfo[0].scheduled = moment(time).format('LLLL');
 
-                var picFileName = './images/' +  tourinfo[0].neighborhood.replace(/\s/g, '').toLowerCase() + '.jpg';
+                var picFileName = '/images/' +  tourinfo[0].neighborhood.replace(/\s/g, '').toLowerCase() + '.jpg';
                 var info = {...tourinfo[0], ...result[0], ...{pic: picFileName}};
                 console.log(info);
 
