@@ -4,28 +4,47 @@
     
     <body class="uk-background-muted">
         <% include ../partials/nav %>
-        <h1>Schedule a new tour: </h1>
+        <h1>Schedule A New Tour: </h1>
         <form method="post" action="scheduled/newtour"></form>
             <!-- List out all tours -->
-            <label for="tourname">Select the tour you want to schedule:</label>
-            <select id="tourname" name="tourname" autofocus>
-                <!-- <option value="volvo">Volvo</option> -->
-            </select> 
-
+            <div class="uk-margin">
+                <label class="uk-form-label" for="tourname">Select the tour you want to schedule:</label>
+                <div class="uk-form-controls"></div>
+                    <select style="max-width:400px;width:80%" class="uk-select" id="tourname" name="tourname" autofocus>
+                        <% alltours.forEach(function(tour) { %>
+                        <option value="<%=  tour.id %>"><%=  tour.walktitle %></option>
+                        <% }); %>
+                    </select> 
+                </div>
+            </div>
             <!-- Prepopulate the tour guide's name and their user_id as a hidden field-->
-            <label for="firstname">Firstname</label><input type="text" name="firstname" placeholder="Enter your firstname" value="John"/>
-            <label for="lastname">Lastname</label><input type="text" name="lastname" placeholder="Enter your lastname" value="Doe"/>
-            
-            <!-- Create this dynamically after sign up or on sign in -->
-            <input type="hidden" id="user_id" name="user_id" value="3">
+            <div class="uk-margin">
+                <label for="firstname">Firstname</label>
+                <input class="uk-input uk-form-width-medium" type="text" name="firstname" placeholder="Enter your firstname" value="<%= firstname %>"/>
+            </div>
 
-            <label for="newtourdate">New scheduled date:</label>
-            <input type="date" id="newtourdate" name="newtourdate" data-date-inline-picker="true" value="2019-05-01" min="2019-01-01" max="2019-12-31" required>
-            <label for="newtourtime">Choose a time for your tour:</label>
-            <input type="time" id="newtourtime" name="newtourtime" min="7:00" max="20:00" step="0" required>
+            <div class="uk-margin"></div>
+                <label for="lastname">Lastname</label>
+                <input class="uk-input uk-form-width-medium" type="text" name="lastname" placeholder="Enter your lastname" value="<%= lastname %>"/>
+            </div>
+     
+            <input type="hidden" id="user_id" name="user_id" value="<%= guideid %>" />
 
-            <button type="submit" id="submit">Schedule a new tour!</button>
+            <div class="uk-margin"></div>
+                <label for="newtourdate">New scheduled date:</label>
+                <input class="uk-input uk-form-width-medium" type="date" id="newtourdate" name="newtourdate" data-date-inline-picker="true" value="2019-05-01" min="2019-01-01" max="2019-12-31" required>
+            </div>
+            <div class="uk-margin"></div>
+                <label for="newtourtime">Choose a time for your tour:</label>
+                <input class="uk-input uk-form-width-medium" type="time" id="newtourtime" name="newtourtime" min="7:00" max="20:00" step="0" required>
+            </div>
+            <p uk-margin>
+            <button class="uk-button uk-button-primary" type="submit" id="submit">Schedule a new tour!</button>
+            </p>
+            <textarea class="uk-textarea" name="guidenote" cols="40" rows="5"></textarea>
         </form>
+        
+        <h2>Current Scheduled Tours:</h2>
         <div>
             <% allguidetours.forEach(function(schdld) { %>
                 <p><%=  schdld.walktitle %></p>

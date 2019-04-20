@@ -31,11 +31,13 @@ router.post('/signin', function(req, res){
         else {
             if (results[0]){ // a record was found
                 req.session.em = results[0].email;
+                req.session.isguide = (results[0].category === 'guide')? true : false; 
                 console.log("session is: ", req.session.em, "redirect to: ", req.session.redirectTo);
                 if (req.session.redirectTo)
                     res.redirect(req.session.redirectTo) 
-                else 
-                    res.redirect('/')
+                else if (req.session.isguide) 
+                    res.redirect('/scheduled/guidestours')
+                else res.redirect('/');
             } else{
                 res.redirect('/users/signin')
             }

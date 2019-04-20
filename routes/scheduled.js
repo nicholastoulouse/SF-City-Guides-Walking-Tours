@@ -20,7 +20,7 @@ router.get('/guidestours', function(req, res) {
                             allguidetours[0].scheduled = moment(time).format('LLLL');
                             // var data = {...isguide[0], ...allguidetours[0]}
                             console.log('data for all guides scheduled tours and a list of all tours', alltours, allguidetours)
-                            res.render('pages/guidespage', {alltours: alltours, allguidetours: allguidetours});
+                            res.render('pages/guidespage', {alltours: alltours, allguidetours: allguidetours, firstname:isguide.firstname, lastname:isguide.lastname, guideid:isguide.id});
                         })
                     });
             }
