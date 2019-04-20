@@ -8,19 +8,19 @@ router.get('/guidestours', function(req, res) {
         res.redirect('/users/signin');
     } else {
         connection.query('SELECT category, id, firstname, lastname FROM users WHERE email=?', [req.session.em], function(error, isguide, fields){
-            console.log('Hurray***************1')
             if(isguide[0].category=='guide'){
                     connection.query("SELECT id, walktitle FROM tours", function(error, alltours, fields){
-                        console.log('Hurray***************2')
-                        // we need to get the guides user id
                         connection.query('SELECT st.scheduled, st.cancellation, t.walktitle FROM scheduled_tours AS st INNER JOIN tours AS t WHERE st.user_id=? AND st.tour_id=t.id', [isguide[0].id], function(error, allguidetours, fields){
-                            console.log('Hurray***************3')
                             console.log('all guide tours', allguidetours[0])
-                            var time = allguidetours[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
-                            allguidetours[0].scheduled = moment(time).format('LLLL');
+                            // var time = allguidetours[0].scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
+                            // allguidetours[0].scheduled = moment(time).format('LLLL');
                             // var data = {...isguide[0], ...allguidetours[0]}
-                            console.log('data for all guides scheduled tours and a list of all tours', alltours, allguidetours)
-                            res.render('pages/guidespage', {alltours: alltours, allguidetours: allguidetours, firstname:isguide.firstname, lastname:isguide.lastname, guideid:isguide.id});
+                            allguidetours.forEach((t) => {
+                                var timeformatted = moment(t.scheduled.toString().slice(0, -5)).format('LLLL'); 
+                                t.scheduled = timeformatted.replace(" GMT-0700 (Pacific Daylight Time)", "");
+                            });
+                            console.log('data for all guides scheduled tours ************', allguidetours);
+                            res.render('pages/guidespage', {alltours: alltours, allguidetours: allguidetours, firstname:isguide[0].firstname, lastname:isguide[0].lastname, guideid:isguide[0].id});
                         })
                     });
             }
