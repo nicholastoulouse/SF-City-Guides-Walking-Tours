@@ -20,6 +20,7 @@ app.use('/users', routes.users); // app.use why? b/c we are not using app.get: p
 app.use('/tours', routes.tours);
 app.use('/scheduled', routes.scheduled);
 app.use('/', routes.home);
+app.use('/neighborhoods', routes.neighborhoods);
 
 // until you put res.send or res.render or res.json you're still in the middle
 
