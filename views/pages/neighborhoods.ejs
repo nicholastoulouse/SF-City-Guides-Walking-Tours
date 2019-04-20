@@ -1,0 +1,11 @@
+<% include ../partials/nav %>
+<% include ../partials/head %>
+<h1>Neighborhoods</h1>
+
+<% for(var i in results) { %>
+	<p>	
+	 <%= results[i].neighborhood %>
+	</p>
+<% } %>
+
+<% include ../partials/footer %>
