@@ -5,7 +5,7 @@
     <body class="uk-background-muted">
         <% include ../partials/nav %>
         <h1>Schedule A New Tour: </h1>
-        <form method="post" action="scheduled/newtour"></form>
+        <form method="post" id="newtour" action="scheduled/newtour">
             <!-- List out all tours -->
             <div class="uk-margin">
                 <label class="uk-form-label" for="tourname">Select the tour you want to schedule:</label>
@@ -32,7 +32,7 @@
 
             <div class="uk-margin"></div>
                 <label for="newtourdate">New scheduled date:</label>
-                <input class="uk-input uk-form-width-medium" type="date" id="newtourdate" name="newtourdate" data-date-inline-picker="true" value="2019-05-01" min="2019-01-01" max="2019-12-31" required>
+                <input class="uk-input uk-form-width-medium" type="date" id="newtourdate" name="newtourdate" data-date-inline-picker="true" value="2019-05-01" max="2019-12-31" required>
             </div>
 
             <div class="uk-margin"></div>
@@ -52,16 +52,40 @@
         <h2>Current Scheduled Tours:</h2>
         <div>
             <% allguidetours.forEach(function(schdld) { %>
-                <p><%=  schdld.scheduled %> <br/> <%=  schdld.walktitle %></p>
+                <p><%=  schdld.scheduled %> <br/> <strong><%=  schdld.walktitle %></strong></p>
                 
             <% }); %>
         </div>
         <% include ../partials/footer %>
         <script>
         $(document).ready(function(){
+            // monitor the onchange of the calendar date instead of the submit.
+            var today = Date();
+            console.log(today);
+            $('#newtourdate').attr("min", today);
+
+            // submit the form data to the route the normal way
             $("#submit").on("click", function(e){
                 e.preventDefault();
-                console.log("submitted");
+
+                var scheduledtourdata = $('#newtour').serialize();
+                console.log("scheduledtourdata ", scheduledtourdata);
+
+                var jqxhr = $.post( "/scheduled/newtour", scheduledtourdata, function() {
+                    alert( "success" );
+                })
+                .done(function() {
+                    alert( "second success" );
+                })
+                .fail(function() {
+                    alert( "error" );
+                })
+                .always(function() {
+                    window.location.href = "/scheduled/guidestours";
+                    // Put some confirmation code in here, using CSS
+                });
+                // submit via form since when you are using ajax, you're sending data. Or do the redirect on the ajax client side.
+                // are you going to stick with render/redirect or are you doing ajax/api. If you do the hybrid, make sure that you understand what is going on. When you send an ajax call, you are sending json or data and receiving it too.
             })
         })
         </script>
