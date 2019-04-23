@@ -35,6 +35,23 @@ footer ul a:hover {
     cursor:pointer;
 }
 
+.sttime {
+    color:  white; 
+    font-weight: 450;
+    font-size: .9em;
+    word-spacing: 2px; 
+    margin-top: 1em;
+}
+
+.sttour {
+    margin-bottom: 10px;
+}
+
+.guide {
+    float: right;
+}
+
+
 /* patch to aid mapbox match UIkit media query for cards */
 @media only screen and (min-width: 959px) {
     #map {

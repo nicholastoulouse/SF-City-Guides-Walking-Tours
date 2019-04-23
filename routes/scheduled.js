@@ -54,6 +54,11 @@ router.get('/:tour_id', function (req, res) {
     connection.query('SELECT st.id, scheduled, cancellation, firstname, lastname, email, walktitle, neighborhood, description, bio, mediawikiURL FROM scheduled_tours AS st INNER JOIN users AS u INNER JOIN tours AS t WHERE st.id=? AND st.user_id = u.id AND st.tour_id = t.id', [req.params.tour_id], function (error, results, fields) {
         if (error) res.send(error)
         else {
+            results = results.map(st => {
+                var time = st.scheduled.toString().slice(0, -5); // Removes the .000Z of 2019-05-01T18:00:00.000Z
+                st.scheduled = moment(time).format('LLLL');
+                return st; 
+            })
             console.log("All scheduled tours for tour number", req.params.tour_id, ":", results);
             res.render("pages/scheduled", {scheduled: results});
         }
