@@ -22,49 +22,85 @@
             <p><strong>Meeting location:</strong> Please meet your tour guide five minutes ahead of time at <strong><%= tourinfo.meeting_spot %></strong>. Public transportation: MUNI/BART Montgomery Station; all Market Street buses & streetcars.</p>
         </div>
 
-        <div id="map" class="map" width="320px" height="auto" style="min-height:300px;max-height:700px;min-width:320px;width:100%;margin: 0 auto;"></div>
+        <div id="map" class="map"></div>
         <script>
-                $(document).ready(function(){ 
-                    var lng = <%= tourinfo.longitude %>;
-                    var lat = <%= tourinfo.latitude %>;
-                    var coords = [lng, lat];
-                    console.log("coordinates ", coords);
-                    var apikey = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ'; // 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
-                    mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
-    
-                    var map = new mapboxgl.Map({
-                        container: 'map', 
-                        style: 'mapbox://styles/mapbox/streets-v9', 
-                        center: coords, 
-                        zoom: 14
-                    });
-    
-                    var geocoder = new MapboxGeocoder({
-                        accessToken: mapboxgl.accessToken
-                    });
-                    
-                    map.addControl(geocoder);
-    
-                    map.on('load', function() {
-                        map.addSource('single-point', {
-                            "type": "geojson",
-                            "data": {
-                            "type": "Point",
-                            "coordinates": coords
-                            }
-                        });
-                        
-                        map.addLayer({
-                            "id": "point",
-                            "source": "single-point",
-                            "type": "circle",
-                            "paint": {
-                            "circle-radius": 10,
-                            "circle-color": "magenta"
-                            }
-                        });
-                    });
+            var arr = ["airfield", "airport", "shop", "park", "aquarium", "gallery",  "attraction", "bakery", "bank", "bar", "beer", "bicycle", "share", "bus", "cafe", "campsite", "car", "castle", "cemetery", "cinema", "circle", "stroked", "store", "college", "dentist", "doctor", "water", "embassy", "entrance", "food", "ferry", "station", "fuel", "garden", "golf", "grocery", "harbor", "heliport", "hospital", "cream", "information", "laundry", "library", "lodging", "marker", "monument", "motorwa", "mountain", "museum", "music", "pharmacy", "site", "worship", "playground", "police", "post", "prison", "rail", "light", "metro", "christian", "jewish", "muslim", "restaurant", "rocket", "school", "stadium", "star", "suitcase", "swimming", "theatre", "toilet", "hall", "triangle", "veterinary", "volcano", "w", "zoo"];
+            var lng = <%= tourinfo.longitude %>;
+            var lat = <%= tourinfo.latitude %>;
+            var meetingLocationCoords = [lng, lat];
+            console.log("coordinates ", meetingLocationCoords.join(" "));
+
+            // var coords = [lng, lat];
+            // console.log("coordinates ", coords);
+            var apikey = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ'; // 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
+            mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb3RvMTY5IiwiYSI6ImNqcm53Y3JiYTBiNzc0OGs1ZXR0bmY5ajAifQ.DhLyPa9px0-AdhbsuOFObQ';
+
+            var map = new mapboxgl.Map({
+                container: 'map', 
+                style: 'mapbox://styles/mapbox/streets-v9', 
+                center: meetingLocationCoords, 
+                zoom: 14
+            });
+            
+            var landmarks = [
+            {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: meetingLocationCoords
+                },
+                properties: {
+                    title: "Meeting Location",
+                    icon: "circle"
+                }
+            }];
+
+            // var geocoder = new MapboxGeocoder({
+            //     accessToken: mapboxgl.accessToken
+            // });
+            // map.addControl(geocoder);
+
+            map.on('load', function() {
+                // map.addSource('single-point', {
+                //     "type": "geojson",
+                //     "data": {
+                //         "type": "Point",
+                //         "coordinates": meetingLocationCoords
+                //     }
+                // });
+                var width = 12; // 12px
+
+                map.addLayer({
+                    id: "points",
+                    type: "symbol", // "circle"
+                    source: {
+                        type: "geojson",
+                        data: {
+                            type: "FeatureCollection",
+                            features: landmarks
+                        }
+                    }, 
+                    // https://docs.mapbox.com/mapbox-gl-js/example/data-driven-circle-colors/
+                    // paint: {
+                    //     // make circles larger as the user zooms from z12 to z22
+                    //     'circle-radius': {
+                    //     'base': 1.75,
+                    //     'stops': [[12, 2], [22, 180]]
+                    //     },
+                    //     'circle-color': ['#FF00FF']
+                    // },
+                    layout: {
+                        "icon-image": "{icon}-15",
+                        "text-field": "{title}",
+                        "text-font": [
+                            "Open Sans Semibold",
+                            "Arial Unicode MS Bold"
+                        ],
+                        "text-offset": [0, 0.6],
+                        "text-anchor": "top"
+                    }
                 });
-            </script>
+            });
+        </script>
     </body>
 </html>
