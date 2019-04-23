@@ -1,6 +1,15 @@
 body {
     padding: 1.5em;
 }
+#map {
+    min-width:320px;
+    max-width: 959px;
+    width:100%;
+    min-height:400px;
+    max-height:700px;
+    height: auto;
+    margin: 0;
+}
 footer {
 
     height: 64px;
@@ -24,6 +33,14 @@ footer ul a:hover {
     color:white;
     text-decoration: none !important;
     cursor:pointer;
+}
+
+/* patch to aid mapbox match UIkit media query for cards */
+@media only screen and (min-width: 959px) {
+    #map {
+        min-width: 462px;
+        width: 50%;
+    }
 }
 
 /* Extra small devices (phones, 600px and down) */

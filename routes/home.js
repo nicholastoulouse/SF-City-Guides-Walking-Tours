@@ -7,9 +7,8 @@ var router = require('express').Router()
 
 router.get('/', function(req, res){
     console.log("inside home")
-    res.render("pages/index");
-    
-    // change pwd or do any processing then call next to go to the next middleware
+    // Change this path to res.render("pages/tours") once you have an index page.
+    res.redirect("/tours"); 
 });
 
 module.exports = router;
